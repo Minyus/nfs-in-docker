@@ -12,9 +12,9 @@ services:
     networks:
       - nfs
     environment:
-      NFS_SERVER_DIRS: '/nfs/secret:/nfs/home:/nfs/modules:/nfs/modulefiles'
+      NFS_SERVER_DIRS: '/volume/dir1:/volume/dir2'
     volumes:
-      - nfs:/nfs
+      - ./server/server_volume:/volume
 
   client:
     build:
@@ -28,12 +28,10 @@ services:
       - nfs
     environment:
       NFS_SERVER: server
-      NFS_SERVER_DIRS: '/nfs/secret:/nfs/home:/nfs/modules:/nfs/modulefiles'
-      NFS_CLIENT_DIRS: '/secret:/home:/opt/apps/Linux:/opt/apps/modulefiles/Linux'
+      NFS_SERVER_DIRS: '/volume/dir1:/volume/dir2'
+      NFS_CLIENT_DIRS: '/volume/dir1:/volume/dir2'
+    volumes:
+      - ./client/client_volume:/volume
 
 networks:
   nfs:
-
-volumes:
-  nfs:
-    external: true
